@@ -4,13 +4,14 @@ import os
 import json
 import datasets
 
-_HOMEPAGE = "https://yale-lily.github.io/ROSE/"
+# _HOMEPAGE = "https://yale-lily.github.io/ROSE/"
 
 _DESCRIPTION = """
 RoSE benchmark
 """
 
-_URL = "https://storage.googleapis.com/sfr-rose-data-research/rose_data.tar.gz"
+# _URL = "https://storage.googleapis.com/sfr-rose-data-research/rose_data.tar.gz"
+_DATA_FILE = "../rose_data.tar.gz"
 
 class ACU(datasets.GeneratorBasedBuilder):
     """ACU dataset."""
@@ -84,12 +85,13 @@ class ACU(datasets.GeneratorBasedBuilder):
             description=_DESCRIPTION,
             features=features,
             supervised_keys=("source", "reference"),
-            homepage=_HOMEPAGE,
+            # homepage=_HOMEPAGE,
         )
 
     def _split_generators(self, dl_manager):
         """Returns SplitGenerators."""
-        files = dl_manager.download_and_extract(_URL)
+        # files = dl_manager.download_and_extract(_URL)
+        files = dl_manager.extract(_DATA_FILE)
         if self.config.name.startswith("cnndm"):
             dataset = "cnndm"
 
@@ -124,7 +126,7 @@ class ACU(datasets.GeneratorBasedBuilder):
     def _generate_examples(self, acu_file, dataset, split):
         """Yields examples."""
         if dataset == "cnndm":
-            data_hf = datasets.load_dataset("cnn_dailymail", "3.0.0")[split]
+            data_hf = datasets.load_dataset("cnn_dailymail", "3.0.0", verification_mode="no_checks")[split]
             source_key = "article"
             target_key = "highlights"
         elif dataset == "xsum":
