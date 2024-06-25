@@ -1,8 +1,3 @@
----
-language: 
-- en
----
-
 # ROSE 🌹
 
 This repo contiains the RoSE benchmark of our paper "Revisiting the Gold Standard:
